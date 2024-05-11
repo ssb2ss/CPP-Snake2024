@@ -7,12 +7,16 @@ class GameScene
 {
     int width, height;
     int** map;
+
     Snake* snake;
 public:
     GameScene();
     ~GameScene();
     void Update();
     void Draw();
+
+    void InitMap();
+    void InitColor();
 };
 
 #endif

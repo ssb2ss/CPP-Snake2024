@@ -5,6 +5,38 @@
 
 GameScene::GameScene()
 {
+    InitMap();
+    InitColor();
+
+    snake = new Snake(width / 2, height / 2, 3);
+}
+
+GameScene::~GameScene()
+{
+    for (int i = 0; i < height; i++)
+    {
+        delete[] map[i];
+    }
+    delete[] map;
+
+    delete snake;
+}
+
+void GameScene::Update()
+{
+    snake->Update();
+}
+
+void GameScene::Draw()
+{
+    //TODO: Draw Screen
+
+    refresh();
+}
+
+
+void GameScene::InitMap()
+{
     //TODO: Add Flexibility on Map system
     width = 21;
     height = 21;
@@ -31,26 +63,13 @@ GameScene::GameScene()
             }
         }
     }
-
-    snake = new Snake(width / 2, height / 2, 3);
-}
-GameScene::~GameScene()
-{
-    for (int i = 0; i < height; i++)
-    {
-        delete[] map[i];
-    }
-    delete[] map;
-
-    delete snake;
 }
 
-void GameScene::Update()
+void GameScene::InitColor()
 {
+    start_color();
 
-}
-
-void GameScene::Draw()
-{
-    refresh();
+    init_pair(COLOR_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
+    init_pair(COLOR_GAME_BACKGROUND, COLOR_BLACK, COLOR_BLUE);
+    init_pair(COLOR_SNAKE, COLOR_GREEN, COLOR_YELLOW);
 }

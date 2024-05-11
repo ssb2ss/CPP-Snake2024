@@ -9,7 +9,6 @@ void Update(GameScene* game)
     while (true)
     {
         clear();
-        start_color();
         game->Update();
         game->Draw();
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
