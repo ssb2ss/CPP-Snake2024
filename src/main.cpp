@@ -11,6 +11,14 @@ void Update(GameScene* game)
         clear();
         game->Update();
         game->Draw();
+
+        if (game->IsGameOver())
+        {
+            mvprintw(20, 50, "Game Over");
+            getch();
+            break;
+        }
+
         std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }

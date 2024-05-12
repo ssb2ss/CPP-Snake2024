@@ -5,8 +5,10 @@
 
 GameScene::GameScene()
 {
+    isGameOver = false;
+
     InitMap();
-    InitColor();
+    InitScreen();
 
     snake = new Snake(width / 2, height / 2, 3);
 }
@@ -19,21 +21,46 @@ GameScene::~GameScene()
     }
     delete[] map;
 
+    delwin(gamescr);
+
     delete snake;
 }
 
 void GameScene::Update()
 {
     snake->Update();
+
+    CheckCollide();
 }
 
 void GameScene::Draw()
 {
     //TODO: Draw Screen
-
+    gamescr = newwin(height, width * 2, 2, 4);
     refresh();
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (map[i][j] == 1 || map[i][j] == 2) // Wall
+            {
+                mvwprintw(gamescr, i, j * 2, "##");
+            }
+        }
+    }
+    snake->Draw(gamescr);
+    wrefresh(gamescr);
 }
 
+
+void GameScene::InitScreen()
+{
+    start_color();
+
+    init_pair(COLOR_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
+    init_pair(COLOR_GAME_BACKGROUND, COLOR_BLACK, COLOR_BLUE);
+    init_pair(COLOR_SNAKE, COLOR_GREEN, COLOR_YELLOW);
+}
 
 void GameScene::InitMap()
 {
@@ -65,11 +92,22 @@ void GameScene::InitMap()
     }
 }
 
-void GameScene::InitColor()
+void GameScene::CheckCollide()
 {
-    start_color();
+    if (snake->IsCollidedSelf())
+    {
+        isGameOver = true;
+        return;
+    }
+    Position p = snake->GetPosition();
+    if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
+    {
+        isGameOver = true;
+        return;
+    }
+}
 
-    init_pair(COLOR_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
-    init_pair(COLOR_GAME_BACKGROUND, COLOR_BLACK, COLOR_BLUE);
-    init_pair(COLOR_SNAKE, COLOR_GREEN, COLOR_YELLOW);
+bool GameScene::IsGameOver()
+{
+    return isGameOver;
 }

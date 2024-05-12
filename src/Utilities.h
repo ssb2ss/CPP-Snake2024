@@ -1,5 +1,5 @@
-#ifndef UTILITIES
-#define UTILITIES
+#ifndef _UTILITIES_H_
+#define _UTILITIES_H_
 
 enum Color
 {
@@ -13,17 +13,16 @@ struct Position
     int x, y;
     Position() : x(0), y(0) {}
     Position(int x, int y) : x(x), y(y) {}
-    Position operator=(const Position p)
-    {
-        return Position(p.x, p.y);
-    }
     Position operator+(const Position p)
     {
-        return Position(x + p.x, y + p.y);
+        Position result;
+        result.x = x + p.x;
+        result.y = y + p.y;
+        return result;
     }
-    Position operator+=(const Position p)
+    bool operator==(const Position p)
     {
-        return Position(x + p.x, y + p.y);
+        return (x == p.x) && (y == p.y);
     }
 };
 
