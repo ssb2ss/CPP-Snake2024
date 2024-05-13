@@ -8,19 +8,19 @@ enum Color
     COLOR_SNAKE
 };
 
-struct Position
+struct Vector2
 {
     int x, y;
-    Position() : x(0), y(0) {}
-    Position(int x, int y) : x(x), y(y) {}
-    Position operator+(const Position p)
+    Vector2() : x(0), y(0) {}
+    Vector2(int x, int y) : x(x), y(y) {}
+    Vector2 operator+(const Vector2 p)
     {
-        Position result;
+        Vector2 result;
         result.x = x + p.x;
         result.y = y + p.y;
         return result;
     }
-    bool operator==(const Position p)
+    bool operator==(const Vector2 p)
     {
         return (x == p.x) && (y == p.y);
     }

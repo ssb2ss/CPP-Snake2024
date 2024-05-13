@@ -8,16 +8,16 @@
 
 class Snake
 {
-    Position position;
-    Position speed;
+    Vector2 position;
+    Vector2 speed;
 
-    std::vector<Position> tails;
+    std::vector<Vector2> tails;
 public:
     Snake(int x, int y, int length);
     void Update();
     void Draw(WINDOW* curscr);
     
-    Position GetPosition();
+    Vector2 GetPosition();
     int GetTailSize();
     void SetTailSize(int length);
     bool IsCollidedSelf();

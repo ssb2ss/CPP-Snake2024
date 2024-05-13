@@ -99,7 +99,7 @@ void GameScene::CheckCollide()
         isGameOver = true;
         return;
     }
-    Position p = snake->GetPosition();
+    Vector2 p = snake->GetPosition();
     if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
     {
         isGameOver = true;
