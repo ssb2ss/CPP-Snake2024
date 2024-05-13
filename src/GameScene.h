@@ -18,11 +18,12 @@ public:
     void Update();
     void Draw();
 
-    void InitScreen();
-    void InitMap();
-
     void CheckCollide();
     bool IsGameOver();
+
+private:
+    void InitScreen();
+    void InitMap();
 };
 
 #endif

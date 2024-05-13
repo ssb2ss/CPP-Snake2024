@@ -1,6 +1,8 @@
 #ifndef _UTILITIES_H_
 #define _UTILITIES_H_
 
+#define DEFAULT_DELAY 500
+
 enum Color
 {
     COLOR_BACKGROUND = 1,

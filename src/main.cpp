@@ -19,7 +19,7 @@ void Update(GameScene* game)
             break;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_DELAY));
     }
 }
 

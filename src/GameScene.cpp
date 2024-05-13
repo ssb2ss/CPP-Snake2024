@@ -35,7 +35,7 @@ void GameScene::Update()
 
 void GameScene::Draw()
 {
-    //TODO: Draw Screen
+    //TODO: Draw Screen With Colors
     gamescr = newwin(height, width * 2, 2, 4);
     refresh();
     for (int i = 0; i < height; i++)
