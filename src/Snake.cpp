@@ -65,6 +65,20 @@ Vector2 Snake::GetPosition()
     return position;
 }
 
+
+void Snake::PushTail()
+{
+    Vector2 tmp;
+    tmp.x = tails.back().x;
+    tmp.y = tails.back().y;
+    tails.push_back(tmp);
+}
+
+void Snake::PopTail()
+{
+    tails.pop_back();
+}
+
 int Snake::GetTailSize()
 {
     return tails.size();
@@ -72,7 +86,6 @@ int Snake::GetTailSize()
 
 void Snake::SetTailSize(int l)
 {
-    l--;
     if (tails.size() == l)
     {
         return;
@@ -81,17 +94,14 @@ void Snake::SetTailSize(int l)
     {
         while (tails.size() > l)
         {
-            tails.pop_back();
+            PopTail();
         }
     }
     else if (tails.size() < l)
     {
         while (tails.size() < l)
         {
-            Vector2 tmp;
-            tmp.x = tails.back().x;
-            tmp.y = tails.back().y;
-            tails.push_back(tmp);
+            PushTail();
         }
     }
 }

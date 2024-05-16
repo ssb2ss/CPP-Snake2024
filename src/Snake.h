@@ -18,6 +18,8 @@ public:
     void Draw(WINDOW* curscr);
     
     Vector2 GetPosition();
+    void PushTail();
+    void PopTail();
     int GetTailSize();
     void SetTailSize(int length);
     bool IsCollidedSelf();
