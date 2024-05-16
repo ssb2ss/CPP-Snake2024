@@ -7,7 +7,7 @@ Snake::Snake(int x, int y, int length)
     speed = Vector2(-1, 0);
 
     //TODO: tails' position from map
-    for (int i = 1; i < length; i++)
+    for (int i = 0; i < length; i++)
     {
         tails.push_back(Vector2(x + i, y));
     }
