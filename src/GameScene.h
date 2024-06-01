@@ -1,29 +1,32 @@
-#ifndef _GAME_SCENE_H_
-#define _GAME_SCENE_H_
+#ifndef _GAMESCENE_H_
+#define _GAMESCENE_H_
 
+#include <ncurses.h>
+#include <string>
+#include <fstream>
 #include "Snake.h"
+#include "Utilities.h"
 
-class GameScene
-{    
+class GameScene {
+private:
     int width, height;
     int** map;
+    WINDOW* gamescr;
+    Snake* snake;
     bool isGameOver;
 
-    WINDOW* gamescr;
+    void InitScreen();
+    void InitMap();
+    void CheckCollide();
 
-    Snake* snake;
 public:
     GameScene();
     ~GameScene();
     void Update();
     void Draw();
-
-    void CheckCollide();
     bool IsGameOver();
-
-private:
-    void InitScreen();
-    void InitMap();
+    void SaveMap(const std::string& filename);
+    void LoadMap(const std::string& filename);
 };
 
 #endif
