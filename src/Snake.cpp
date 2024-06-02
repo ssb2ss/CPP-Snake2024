@@ -33,6 +33,7 @@ void Snake::Update()
             direction = Vector2(1, 0);
             break;
     }
+    InputManager::GetInstance().pressedKey = 0;
 
     for (int i = tails.size() - 1; i >= 0; i--)
     {
@@ -58,12 +59,6 @@ void Snake::Draw(WINDOW* curscr)
         mvwprintw(curscr, tails[i].y, tails[i].x * 2, "X");
     }
     attroff(COLOR_PAIR(COLOR_SNAKE));
-}
-
-
-Vector2 Snake::GetPosition()
-{
-    return position;
 }
 
 

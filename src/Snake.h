@@ -18,7 +18,10 @@ public:
     void Update();
     void Draw(WINDOW* curscr);
     
-    Vector2 GetPosition();
+    Vector2 GetPosition() { return position; }
+    void SetPosition(Vector2 position) { this->position = position; }
+    Vector2 GetDirection() { return direction; }
+    void SetDirection(Vector2 direction) { this->direction = direction; }
     void PushTail();
     void PopTail();
     int GetTailSize();

@@ -2,6 +2,7 @@
 #define _GAME_SCENE_H_
 
 #include "Snake.h"
+#include "Gate.h"
 
 class GameScene
 {    
@@ -12,6 +13,7 @@ class GameScene
     WINDOW* gamescr;
 
     Snake* snake;
+    Gate* gate;
 public:
     GameScene();
     ~GameScene();

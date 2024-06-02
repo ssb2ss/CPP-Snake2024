@@ -11,6 +11,7 @@ GameScene::GameScene()
     InitScreen();
 
     snake = new Snake(width / 2, height / 2, 3);
+    gate = new Gate(map, width, height);
 }
 
 GameScene::~GameScene()
@@ -24,6 +25,10 @@ GameScene::~GameScene()
     delwin(gamescr);
 
     delete snake;
+    if (gate != nullptr)
+    {
+        delete gate;
+    }
 }
 
 void GameScene::Update()
@@ -49,6 +54,10 @@ void GameScene::Draw()
         }
     }
     snake->Draw(gamescr);
+    if (gate != nullptr)
+    {
+        gate->Draw(gamescr);
+    }
     wrefresh(gamescr);
 }
 
@@ -102,8 +111,17 @@ void GameScene::CheckCollide()
     Vector2 p = snake->GetPosition();
     if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
     {
-        isGameOver = true;
-        return;
+        if (gate != nullptr && gate->IsCollided(p))
+        {
+            Vector2 d = snake->GetDirection();
+            snake->SetDirection(gate->GetExitDirection(p, d));
+            snake->SetPosition(gate->GetExitPosition(p));
+        }
+        else
+        {
+            isGameOver = true;
+            return;
+        }
     }
 }
 
