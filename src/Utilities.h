@@ -15,11 +15,19 @@ struct Vector2
     int x, y;
     Vector2() : x(0), y(0) {}
     Vector2(int x, int y) : x(x), y(y) {}
+
     Vector2 operator+(const Vector2 p)
     {
         Vector2 result;
         result.x = x + p.x;
         result.y = y + p.y;
+        return result;
+    }
+    Vector2 operator*(const int n)
+    {
+        Vector2 result;
+        result.x = x * n;
+        result.y = y * n;
         return result;
     }
     bool operator==(const Vector2 p)

@@ -9,7 +9,8 @@
 class Snake
 {
     Vector2 position;
-    Vector2 speed;
+    Vector2 direction;
+    int speed;
 
     std::vector<Vector2> tails;
 public:

@@ -4,7 +4,8 @@
 Snake::Snake(int x, int y, int length)
 {
     position = Vector2(x, y);
-    speed = Vector2(-1, 0);
+    direction = Vector2(-1, 0);
+    speed = 1;
 
     //TODO: tails' position from map
     for (int i = 0; i < length; i++)
@@ -20,16 +21,16 @@ void Snake::Update()
     switch (key)
     {
         case 258: // Key Down
-            speed = Vector2(0, 1);
+            direction = Vector2(0, 1);
             break;
         case 259: // Key Up
-            speed = Vector2(0, -1);
+            direction = Vector2(0, -1);
             break;
         case 260: // Key Left
-            speed = Vector2(-1, 0);
+            direction = Vector2(-1, 0);
             break;
         case 261: // Key Right
-            speed = Vector2(1, 0);
+            direction = Vector2(1, 0);
             break;
     }
 
@@ -45,7 +46,7 @@ void Snake::Update()
         }
     }
     //printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
-    position = position + speed;
+    position = position + direction * speed;
 }
 
 void Snake::Draw(WINDOW* curscr)
