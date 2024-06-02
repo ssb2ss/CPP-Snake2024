@@ -4,7 +4,6 @@
 #include <ctime>
 #include <chrono>
 #include "Item.h"
-
 #include "InputManager.h"
 #include "GameScene.h"
 
@@ -73,7 +72,6 @@ void GameScene::Draw()
     wrefresh(gamescr);
 }
 
-
 void GameScene::InitScreen()
 {
     start_color();
@@ -121,6 +119,13 @@ void GameScene::CheckCollide()
     }
     Vector2 p = snake->GetPosition();
     if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
+    {
+        isGameOver = true;
+        return;
+    }
+
+    // 뱀의 길이가 3보다 작아지면 게임 오버 처리
+    if (snake->GetTailSize() < 3)
     {
         isGameOver = true;
         return;
@@ -173,8 +178,6 @@ void GameScene::GenerateRandomItem()
         lastItemTime = now; // 마지막 아이템 생성 시간 업데이트
     }
 }
-
-
 
 void GameScene::CheckItemCollision()
 {
