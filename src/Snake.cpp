@@ -33,6 +33,7 @@ void Snake::Update()
             direction = Vector2(1, 0);
             break;
     }
+    InputManager::GetInstance().pressedKey = 0;
 
     for (int i = tails.size() - 1; i >= 0; i--)
     {
@@ -46,8 +47,10 @@ void Snake::Update()
         }
     }
     //printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
-    position = position + direction * speed;
+    position = position + direction ;
+    //printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
 }
+
 
 void Snake::Draw(WINDOW* curscr)
 {
@@ -58,12 +61,6 @@ void Snake::Draw(WINDOW* curscr)
         mvwprintw(curscr, tails[i].y, tails[i].x * 2, "X");
     }
     attroff(COLOR_PAIR(COLOR_SNAKE));
-}
-
-
-Vector2 Snake::GetPosition()
-{
-    return position;
 }
 
 
@@ -116,5 +113,20 @@ bool Snake::IsCollidedSelf()
             return true;
         }
     }
+    if(tails.size() <3){
+        return true;
+    }
     return false;
+}
+void Snake::IncreaseSpeed()
+{
+    // 현재 속도의 크기를 2 증가시킴
+    speed += 1;
+}
+
+void Snake::DecreaseSpeed()
+{
+    // 현재 속도의 크기를 2 감소시킴
+    speed -=1;
+
 }
