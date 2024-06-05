@@ -7,7 +7,7 @@ Snake::Snake(int x, int y, int length)
     direction = Vector2(-1, 0);
     speed = 1;
 
-    //TODO: tails' position from map
+    // TODO: tails' position from map
     for (int i = 0; i < length; i++)
     {
         tails.push_back(Vector2(x + i, y));
@@ -17,7 +17,7 @@ Snake::Snake(int x, int y, int length)
 void Snake::Update()
 {
     int key = InputManager::GetInstance().GetPressedKey();
-    //printw("%d", key);
+    // printw("%d", key);
     switch (key)
     {
         case 258: // Key Down
@@ -33,6 +33,7 @@ void Snake::Update()
             direction = Vector2(1, 0);
             break;
     }
+    InputManager::GetInstance().pressedKey = 0;
 
     for (int i = tails.size() - 1; i >= 0; i--)
     {
@@ -45,11 +46,12 @@ void Snake::Update()
             tails[i] = tails[i - 1];
         }
     }
-    //printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
+    // printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
     position = position + direction * speed;
+    // printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
 }
 
-void Snake::Draw(WINDOW* curscr)
+void Snake::Draw(WINDOW *curscr)
 {
     attron(COLOR_PAIR(COLOR_SNAKE));
     mvwprintw(curscr, position.y, position.x * 2, "O");
@@ -59,13 +61,6 @@ void Snake::Draw(WINDOW* curscr)
     }
     attroff(COLOR_PAIR(COLOR_SNAKE));
 }
-
-
-Vector2 Snake::GetPosition()
-{
-    return position;
-}
-
 
 void Snake::PushTail()
 {
@@ -116,5 +111,25 @@ bool Snake::IsCollidedSelf()
             return true;
         }
     }
+    if (tails.size() < 3)
+    {
+        return true;
+    }
     return false;
+}
+
+void Snake::IncreaseSpeed()
+{
+    // 현재 속도의 크기를 1 증가시킴
+    speed += 1;
+}
+
+void Snake::DecreaseSpeed()
+{
+    // 현재 속도의 크기를 1 감소시킴
+    speed -= 1;
+    if (speed < 1)
+    {
+        speed = 1;
+    }
 }

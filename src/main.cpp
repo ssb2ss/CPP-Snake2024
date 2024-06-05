@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include "GameScene.h"
 
-void Update(GameScene* game)
+void Update(GameScene *game)
 {
     while (true)
     {
@@ -12,9 +12,23 @@ void Update(GameScene* game)
         game->Update();
         game->Draw();
 
-        if (game->IsGameOver())
+        if (game->IsGameOver()) // get returned by collide method if isGameover is false,
         {
-            mvprintw(20, 50, "Game Over");
+            WINDOW *end;
+            end = newwin(5, 21, 10, 15);
+            box(end, 0, 0);
+            mvwprintw(end, 2, 6, "Game Over");
+            wrefresh(end);
+            getch();
+            break;
+        }
+        if (game->Stage_pass()) // if player finished all mission
+        {
+            WINDOW *stagepass;
+            stagepass = newwin(5, 21, 10, 15);
+            box(stagepass, 0, 0);
+            mvwprintw(stagepass, 2, 6, "STAGE PASS");
+            wrefresh(stagepass);
             getch();
             break;
         }
@@ -40,7 +54,7 @@ int main()
     curs_set(0);
     keypad(stdscr, TRUE);
 
-    GameScene* game = new GameScene();
+    GameScene *game = new GameScene();
 
     // Multi-threading - Game Update / Input Key
     std::thread update(Update, game);
