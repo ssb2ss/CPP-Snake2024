@@ -7,7 +7,8 @@ enum Color
 {
     COLOR_BACKGROUND = 1,
     COLOR_GAME_BACKGROUND,
-    COLOR_SNAKE
+    COLOR_SNAKE,
+    COLOR_WALL
 };
 
 struct Vector2

@@ -44,8 +44,9 @@ public:
     void Updating_Score();   // Updating Score dynamically
     void Checking_Mission(); // Checking "V" the Mission
     bool Stage_pass();       // if stage pass make new box on the game window
-    void SaveMap(const std::string &filename);
-    void LoadMap(const std::string &filename);
+    void SaveMap(const std::string& filename);
+    void LoadMap(const std::string& filename);
+    int GetDelay();
 
 private:
     void InitScreen();

@@ -8,7 +8,7 @@ Snake::Snake(int x, int y, int length)
     speed = 1;
 
     // TODO: tails' position from map
-    for (int i = 0; i < length; i++)
+    for (int i = 1; i <= length; i++)
     {
         tails.push_back(Vector2(x + i, y));
     }
@@ -47,7 +47,7 @@ void Snake::Update()
         }
     }
     // printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
-    position = position + direction * speed;
+    position = position + direction;
     // printw("%d %d, %d %d", tails[0].x, tails[0].y, tails[1].x, tails[1].y);
 }
 
@@ -132,4 +132,10 @@ void Snake::DecreaseSpeed()
     {
         speed = 1;
     }
+}
+
+int Snake::GetDelayFromSpeed()
+{
+    int result = DEFAULT_DELAY - (speed - 1) * 100;
+    return result > 100 ? result : 100;
 }

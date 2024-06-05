@@ -30,6 +30,8 @@ public:
     bool IsCollidedSelf();
     void IncreaseSpeed();
     void DecreaseSpeed();
+
+    int GetDelayFromSpeed();
 };
 
 #endif

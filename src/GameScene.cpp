@@ -1,9 +1,9 @@
 #include <ncurses.h>
+#include <random>
+#include <ctime>
 
 #include "InputManager.h"
 #include "GameScene.h"
-#include <random>
-#include <ctime>
 #include "Box.h"
 #include "Gate.h"
 
@@ -16,7 +16,8 @@ GameScene::GameScene()
 
     snake = new Snake(width / 2, height / 2, 3); // make smake at the center
     // and deafult length become 3 in same row.
-    gate = new Gate(map, width, height);
+    // gate = new Gate(map, width, height);
+    gate = nullptr;
     t_box = new Box();
     t_box->Make_Random_Score();
     srand(time(0));
@@ -40,6 +41,7 @@ GameScene::~GameScene()
     {
         delete gate;
     }
+    delete t_box;
 }
 
 void GameScene::Update()
@@ -65,7 +67,9 @@ void GameScene::Draw()
         {
             if (map[i][j] == 1 || map[i][j] == 2) // Wall
             {
+                //attron(COLOR_PAIR(COLOR_WALL));
                 mvwprintw(gamescr, i, j * 2, "##");
+                //attroff(COLOR_PAIR(COLOR_WALL));
             }
         }
     }
@@ -97,37 +101,37 @@ void GameScene::InitScreen()
     init_pair(COLOR_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
     init_pair(COLOR_GAME_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
     init_pair(COLOR_SNAKE, COLOR_GREEN, COLOR_YELLOW);
+    init_pair(COLOR_WALL, COLOR_RED, COLOR_BLACK);
 }
 
 void GameScene::InitMap()
 {
-    // TODO: Add Flexibility on Map system
     width = 21;
     height = 21;
     map = new int *[height];
     for (int i = 0; i < height; i++)
     {
         map[i] = new int[width];
-        for (int j = 0; j < width; j++)
-        {
-
-            if ((i == 0 && j == 0) ||
-                (i == 0 && j == width - 1) ||
-                (i == height - 1 && j == 0) ||
-                (i == height - 1 && j == width - 1))
-            {
-                map[i][j] = 2;
-            }
-            else if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
-            {
-                map[i][j] = 1;
-            }
-            else
-            {
-                map[i][j] = 0;
-            }
-        }
+        // for (int j = 0; j < width; j++)
+        // {
+        //     if ((i == 0 && j == 0) ||
+        //         (i == 0 && j == width - 1) ||
+        //         (i == height - 1 && j == 0) ||
+        //         (i == height - 1 && j == width - 1))
+        //     {
+        //         map[i][j] = 2;
+        //     }
+        //     else if (i == 0 || i == height - 1 || j == 0 || j == width - 1)
+        //     {
+        //         map[i][j] = 1;
+        //     }
+        //     else
+        //     {
+        //         map[i][j] = 0;
+        //     }
+        // }
     }
+    LoadMap("src/map.txt");
 }
 
 void GameScene::CheckCollide() // when snake hit wall or collideself is game over
@@ -138,7 +142,12 @@ void GameScene::CheckCollide() // when snake hit wall or collideself is game ove
         return;
     }
     Vector2 p = snake->GetPosition();
-    if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
+    if (p.x < 0 || p.x >= width || p.y < 0 || p.y >= height)
+    {
+        isGameOver = true;
+        return;
+    }
+    else if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
     {
         if (gate != nullptr && gate->IsCollided(p)) // 여기서 새로운 인자값 하나 받아서 true로 만들기
         {
@@ -346,24 +355,24 @@ bool GameScene::Stage_pass()
     return true;
 }
 
-void GameScene::SaveMap(const std::string &filename)
+void GameScene::SaveMap(const std::string& filename)
 {
     std::ofstream file(filename);
     if (file.is_open())
     {
         for (int i = 0; i < height; ++i)
         {
-            for (int j = 0; ++j < width; ++j)
+            for (int j = 0; j < width; ++j)
             {
                 file << map[i][j] << " ";
             }
             file << "\n";
         }
-        file.close();
     }
+    file.close();
 }
 
-void GameScene::LoadMap(const std::string &filename)
+void GameScene::LoadMap(const std::string& filename)
 {
     std::ifstream file(filename);
     if (file.is_open())
@@ -375,6 +384,15 @@ void GameScene::LoadMap(const std::string &filename)
                 file >> map[i][j];
             }
         }
-        file.close();
     }
+    else
+    {
+        isGameOver = true;
+    }
+    file.close();
+}
+
+int GameScene::GetDelay()
+{
+    return snake->GetDelayFromSpeed();
 }

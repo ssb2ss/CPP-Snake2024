@@ -6,7 +6,6 @@
 Gate::Gate(int **map, int width, int height)
     : map(map), width(width), height(height)
 {
-    srand(time(0));
     for (int i = 0; i < 2;)
     {
         int x = std::rand() % width;

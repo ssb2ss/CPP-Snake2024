@@ -33,7 +33,7 @@ void Update(GameScene *game)
             break;
         }
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(DEFAULT_DELAY));
+        std::this_thread::sleep_for(std::chrono::milliseconds(game->GetDelay()));
     }
 }
 
