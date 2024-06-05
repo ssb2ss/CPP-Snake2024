@@ -14,8 +14,8 @@ GameScene::GameScene()
     InitMap();
     InitScreen();
 
-    snake = new Snake(width / 2, height / 2, 3);  // make smake at the center
-    // and deafult length become 3 in same row. 
+    snake = new Snake(width / 2, height / 2, 3); // make smake at the center
+    // and deafult length become 3 in same row.
     gate = new Gate(map, width, height);
     t_box = new Box();
     t_box->Make_Random_Score();
@@ -23,7 +23,6 @@ GameScene::GameScene()
     lastItemTime = std::chrono::steady_clock::now(); // 마지막 아이템 생성 시간 초기화
     starttime = std::chrono::steady_clock::now();
     std::srand(static_cast<unsigned int>(std::time(0)));
-    
 }
 
 GameScene::~GameScene()
@@ -34,7 +33,6 @@ GameScene::~GameScene()
     }
     delete[] map;
 
-
     delwin(gamescr);
 
     delete snake;
@@ -42,7 +40,6 @@ GameScene::~GameScene()
     {
         delete gate;
     }
-
 }
 
 void GameScene::Update()
@@ -51,18 +48,16 @@ void GameScene::Update()
     CheckCollide();
     GenerateRandomItem(); // 새로운 아이템 생성
     CheckItemCollision(); // 뱀이 아이템과 충돌했는지 검사
-    
+
     Updating_Box();
 }
 
 void GameScene::Draw()
 {
-    //TODO: Draw Screen With Colors
-    gamescr = newwin(height, width * 2 , 2, 4);
-    
+    // TODO: Draw Screen With Colors
+    gamescr = newwin(height, width * 2, 2, 4);
+
     refresh();
-
-
 
     for (int i = 0; i < height; i++)
     {
@@ -80,7 +75,7 @@ void GameScene::Draw()
     {
         gate->Draw(gamescr);
     }
-    for (auto& item : items)
+    for (auto &item : items)
     {
         if (item.type == ITEM_GROW)
             mvwprintw(gamescr, item.position.y, item.position.x * 2, "+");
@@ -93,10 +88,7 @@ void GameScene::Draw()
     }
     Updating_Box();
     wrefresh(gamescr);
-    
-
 }
-
 
 void GameScene::InitScreen()
 {
@@ -109,10 +101,10 @@ void GameScene::InitScreen()
 
 void GameScene::InitMap()
 {
-    //TODO: Add Flexibility on Map system
+    // TODO: Add Flexibility on Map system
     width = 21;
     height = 21;
-    map = new int*[height];
+    map = new int *[height];
     for (int i = 0; i < height; i++)
     {
         map[i] = new int[width];
@@ -136,13 +128,9 @@ void GameScene::InitMap()
             }
         }
     }
-
-    
 }
 
-
-
-void GameScene::CheckCollide()  // when snake hit wall or collideself is game over
+void GameScene::CheckCollide() // when snake hit wall or collideself is game over
 {
     if (snake->IsCollidedSelf())
     {
@@ -152,7 +140,7 @@ void GameScene::CheckCollide()  // when snake hit wall or collideself is game ov
     Vector2 p = snake->GetPosition();
     if (map[p.y][p.x] == 1 || map[p.y][p.x] == 2)
     {
-        if (gate != nullptr && gate->IsCollided(p))  // 여기서 새로운 인자값 하나 받아서 true로 만들기
+        if (gate != nullptr && gate->IsCollided(p)) // 여기서 새로운 인자값 하나 받아서 true로 만들기
         {
             Vector2 d = snake->GetDirection();
             snake->SetDirection(gate->GetExitDirection(p, d));
@@ -165,7 +153,6 @@ void GameScene::CheckCollide()  // when snake hit wall or collideself is game ov
             return;
         }
     }
-
 }
 
 bool GameScene::IsGameOver()
@@ -190,20 +177,20 @@ void GameScene::GenerateRandomItem()
 
             switch (itemType)
             {
-                case 0:
-                    type = ITEM_GROW; // 뱀의 길이가 늘어나는 아이템
-                    break;
-                case 1:
-                    type = ITEM_SHRINK; // 뱀의 길이가 줄어드는 아이템
-                    break;
-                case 2:
-                    type = ITEM_SPEED_UP; // 빠르게 이동하는 아이템
-                    break;
-                case 3:
-                    type = ITEM_SPEED_DOWN; // 느리게 이동하는 아이템
-                    break;
-                default:
-                    break;
+            case 0:
+                type = ITEM_GROW; // 뱀의 길이가 늘어나는 아이템
+                break;
+            case 1:
+                type = ITEM_SHRINK; // 뱀의 길이가 줄어드는 아이템
+                break;
+            case 2:
+                type = ITEM_SPEED_UP; // 빠르게 이동하는 아이템
+                break;
+            case 3:
+                type = ITEM_SPEED_DOWN; // 느리게 이동하는 아이템
+                break;
+            default:
+                break;
             }
 
             // 아이템 생성 및 맵에 표시
@@ -222,21 +209,25 @@ void GameScene::CheckItemCollision()
     {
         if (p == it->position)
         {
-            if (it->type == ITEM_GROW){
+            if (it->type == ITEM_GROW)
+            {
                 snake->SetTailSize(snake->GetTailSize() + 1);
-                getItem = 1;       
-            }       
-            else if (it->type == ITEM_SHRINK){
+                getItem = 1;
+            }
+            else if (it->type == ITEM_SHRINK)
+            {
                 snake->SetTailSize(snake->GetTailSize() - 1);
-                getItem=2;
+                getItem = 2;
             }
-            else if (it->type == ITEM_SPEED_UP){
+            else if (it->type == ITEM_SPEED_UP)
+            {
                 snake->IncreaseSpeed();
-                getItem =3;
+                getItem = 3;
             }
-            else if (it->type == ITEM_SPEED_DOWN){
+            else if (it->type == ITEM_SPEED_DOWN)
+            {
                 snake->DecreaseSpeed();
-                getItem =4;
+                getItem = 4;
             }
             items.erase(it);
             map[p.y][p.x] = 0;
@@ -245,13 +236,16 @@ void GameScene::CheckItemCollision()
     }
 }
 
-void GameScene::Making_box() {
+void GameScene::Making_box()
+{
     std::vector<std::string> temp_list_name = t_box->get_list_name();
     std::vector<int> mission_scr = t_box->get_Mission_score();
     std::vector<int> score_cnt = t_box->get_Score_count();
-    
-    for (size_t i = 0; i < temp_list_name.size(); i++) {
-        if (i == 0) {
+
+    for (size_t i = 0; i < temp_list_name.size(); i++)
+    {
+        if (i == 0)
+        {
             mvwprintw(ScoreBox, 3 + i, 1, "%s : %d / %d", temp_list_name[i].c_str(), snake->GetTailSize(), mission_scr[i]);
         }
         mvwprintw(ScoreBox, 3 + i, 1, "%s : %d", temp_list_name[i].c_str(), score_cnt[i]);
@@ -263,7 +257,8 @@ void GameScene::Making_box() {
     mvwprintw(ScoreBox, 9, 1, "PLAY TIME : %d seconds ", seconds);
 
     std::vector<std::string> mission_chk = t_box->get_missionchk();
-    for (size_t i = 0; i < temp_list_name.size(); i++) {
+    for (size_t i = 0; i < temp_list_name.size(); i++)
+    {
         mvwprintw(MissionBOX, 3 + i, 1, "%s : %d ( %s )", temp_list_name[i].c_str(), mission_scr[i], mission_chk[i].c_str());
     }
 
@@ -271,21 +266,24 @@ void GameScene::Making_box() {
     wrefresh(MissionBOX);
 }
 
-void GameScene::Updating_Box() {
-    if (ScoreBox != nullptr) {
+void GameScene::Updating_Box()
+{
+    if (ScoreBox != nullptr)
+    {
         delwin(ScoreBox);
     }
-    if (MissionBOX != nullptr) {
+    if (MissionBOX != nullptr)
+    {
         delwin(MissionBOX);
     }
 
-    ScoreBox = newwin(t_box->get_height()+2, t_box->get_width() * 2, 2, 47);
+    ScoreBox = newwin(t_box->get_height() + 2, t_box->get_width() * 2, 2, 47);
     MissionBOX = newwin(t_box->get_height(), t_box->get_width() * 2, 14, 47);
     box(ScoreBox, 0, 0);
     box(MissionBOX, 0, 0);
 
     mvwprintw(ScoreBox, 1, 14, "SCORE BOX");
-    mvwprintw(ScoreBox,2,12,"<  STAGE  %d  >",current_stage+1);
+    mvwprintw(ScoreBox, 2, 12, "<  STAGE  %d  >", current_stage + 1);
     mvwprintw(MissionBOX, 1, 14, "MISSION BOX");
     Updating_Score();
     Checking_Mission();
@@ -293,60 +291,70 @@ void GameScene::Updating_Box() {
     wrefresh(ScoreBox);
     wrefresh(MissionBOX);
 }
-void GameScene::Updating_Score(){   // changing score for each list
-    if(passingGate){
+void GameScene::Updating_Score()
+{ // changing score for each list
+    if (passingGate)
+    {
         t_box->plusScore(5);
         passingGate = false;
-        
     }
-    switch(getItem){
-        case 1:
-            t_box->plusScore(1);
-            t_box->plusScore(0);
-            
-            getItem =0;
-            break;
-        case 2:
-            t_box->plusScore(2);
-            t_box->MinusSize();
-            getItem =0;
-            break;
-        case 3:
-            t_box->plusScore(3);
-            getItem =0;
-            break;
-        case 4:
-            t_box->plusScore(4);
-            getItem =0;
-            break;
+    switch (getItem)
+    {
+    case 1:
+        t_box->plusScore(1);
+        t_box->plusScore(0);
+
+        getItem = 0;
+        break;
+    case 2:
+        t_box->plusScore(2);
+        t_box->MinusSize();
+        getItem = 0;
+        break;
+    case 3:
+        t_box->plusScore(3);
+        getItem = 0;
+        break;
+    case 4:
+        t_box->plusScore(4);
+        getItem = 0;
+        break;
     }
 }
-void GameScene::Checking_Mission(){  // if score equals to mssion score "X" change to "V"
+void GameScene::Checking_Mission()
+{ // if score equals to mssion score "X" change to "V"
     std::vector<int> score_cnt = t_box->get_Score_count();
     std::vector<int> mission_scr = t_box->get_Mission_score();
-    for(int i=0;i<6;i++){
-        if(score_cnt[i] == mission_scr[i]){
+    for (int i = 0; i < 6; i++)
+    {
+        if (score_cnt[i] == mission_scr[i])
+        {
             t_box->SetCheck(i);
         }
     }
-
 }
-bool GameScene:: Stage_pass(){  // checking all misiions 
+bool GameScene::Stage_pass()
+{ // checking all misiions
     std::vector<std::string> Mission_check = t_box->get_missionchk();
-    for(auto it : Mission_check){
-        if ( it != "V"){
+    for (auto it : Mission_check)
+    {
+        if (it != "V")
+        {
             return false;
         }
-        
     }
     return true;
 }
 
-void GameScene::SaveMap(const std::string& filename) {
+void GameScene::SaveMap(const std::string &filename)
+{
     std::ofstream file(filename);
-    if (file.is_open()) {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; ++j < width; ++j) {
+    if (file.is_open())
+    {
+        for (int i = 0; i < height; ++i)
+        {
+            for (int j = 0; ++j < width; ++j)
+            {
                 file << map[i][j] << " ";
             }
             file << "\n";
@@ -355,11 +363,15 @@ void GameScene::SaveMap(const std::string& filename) {
     }
 }
 
-void GameScene::LoadMap(const std::string& filename) {
+void GameScene::LoadMap(const std::string &filename)
+{
     std::ifstream file(filename);
-    if (file.is_open()) {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
+    if (file.is_open())
+    {
+        for (int i = 0; i < height; ++i)
+        {
+            for (int j = 0; j < width; ++j)
+            {
                 file >> map[i][j];
             }
         }

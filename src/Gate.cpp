@@ -3,7 +3,7 @@
 
 #include "Gate.h"
 
-Gate::Gate(int** map, int width, int height)
+Gate::Gate(int **map, int width, int height)
     : map(map), width(width), height(height)
 {
     srand(time(0));
@@ -24,7 +24,7 @@ Gate::Gate(int** map, int width, int height)
     }
 }
 
-void Gate::Draw(WINDOW* curscr)
+void Gate::Draw(WINDOW *curscr)
 {
     for (int i = 0; i < 2; i++)
     {
@@ -78,7 +78,7 @@ Vector2 Gate::GetExitDirection(Vector2 enterPosition, Vector2 enterDirection)
     {
         return result;
     }
-    
+
     // When there are two ways out
     if (cnt == 2)
     {
