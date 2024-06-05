@@ -122,6 +122,10 @@ void Snake::IncreaseSpeed()
 {
     // 현재 속도의 크기를 1 증가시킴
     speed += 1;
+    if (speed > 5)
+    {
+        speed = 5;
+    }
 }
 
 void Snake::DecreaseSpeed()
@@ -136,6 +140,5 @@ void Snake::DecreaseSpeed()
 
 int Snake::GetDelayFromSpeed()
 {
-    int result = DEFAULT_DELAY - (speed - 1) * 100;
-    return result > 100 ? result : 100;
+    return DEFAULT_DELAY - (speed - 1) * 100;
 }
