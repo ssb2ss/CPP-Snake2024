@@ -21,6 +21,12 @@ Gate::Gate(int **map, int width, int height)
             i++;
         }
     }
+    enterTimer = 0;
+}
+
+void Gate::Update()
+{
+    enterTimer++;
 }
 
 void Gate::Draw(WINDOW *curscr)
@@ -41,6 +47,7 @@ Vector2 Gate::GetExitPosition(Vector2 enterPosition)
     {
         return gatePos[0];
     }
+    enterTimer = 0;
 }
 
 Vector2 Gate::GetExitDirection(Vector2 enterPosition, Vector2 enterDirection)
@@ -180,4 +187,9 @@ bool Gate::IsValid(Vector2 position)
     int x = position.x;
     int y = position.y;
     return IsValid(Vector2(x, y));
+}
+
+bool Gate::IsRemovable(int snakeLength)
+{
+    return enterTimer > snakeLength;
 }

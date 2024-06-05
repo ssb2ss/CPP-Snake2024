@@ -18,6 +18,7 @@ GameScene::GameScene()
     // and deafult length become 3 in same row.
     // gate = new Gate(map, width, height);
     gate = nullptr;
+    gateTimer = 0;
     t_box = new Box();
     t_box->Make_Random_Score();
     srand(time(0));
@@ -47,6 +48,7 @@ GameScene::~GameScene()
 void GameScene::Update()
 {
     snake->Update();
+    UpdateGate();
     CheckCollide();
     GenerateRandomItem(); // 새로운 아이템 생성
     CheckItemCollision(); // 뱀이 아이템과 충돌했는지 검사
@@ -395,4 +397,27 @@ void GameScene::LoadMap(const std::string& filename)
 int GameScene::GetDelay()
 {
     return snake->GetDelayFromSpeed();
+}
+
+void GameScene::UpdateGate()
+{
+    gateTimer++;
+    if (gate != nullptr)
+    {
+        gate->Update();
+        if (gateTimer > 20 && gate->IsRemovable(snake->GetTailSize()))
+        {
+            delete gate;
+            gate = nullptr;
+            gateTimer = 0;
+        }
+    }
+    else
+    {
+        if (gateTimer > 10)
+        {
+            gate = new Gate(map, width, height);
+            gateTimer = 0;
+        }
+    }
 }

@@ -26,6 +26,7 @@ class GameScene
 
     std::chrono::time_point<std::chrono::steady_clock> lastItemTime; // 마지막 아이템 생성 시간
     std::chrono::time_point<std::chrono::steady_clock> starttime;    // for the Play time in Score Box
+    int gateTimer;
 
     bool passingGate;
     int getItem;
@@ -53,6 +54,7 @@ private:
     void InitMap();
     void GenerateRandomItem();
     void CheckItemCollision();
+    void UpdateGate();
 };
 
 #endif
