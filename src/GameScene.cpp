@@ -63,36 +63,56 @@ void GameScene::Draw()
 
     refresh();
 
+    wattron(gamescr, COLOR_PAIR(COLOR_WALL));
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
             if (map[i][j] == 1 || map[i][j] == 2) // Wall
             {
-                //attron(COLOR_PAIR(COLOR_WALL));
                 mvwprintw(gamescr, i, j * 2, "##");
-                //attroff(COLOR_PAIR(COLOR_WALL));
             }
         }
     }
+    wattroff(gamescr, COLOR_PAIR(COLOR_WALL));
 
     snake->Draw(gamescr);
+    
     if (gate != nullptr)
     {
         gate->Draw(gamescr);
     }
+
     for (auto &item : items)
     {
         if (item.type == ITEM_GROW)
-            mvwprintw(gamescr, item.position.y, item.position.x * 2, "+");
+        {
+            wattron(gamescr, COLOR_PAIR(COLOR_ITEM_POSITIVE));
+            mvwprintw(gamescr, item.position.y, item.position.x * 2, "L+");
+            wattroff(gamescr, COLOR_PAIR(COLOR_ITEM_POSITIVE));
+        }
         else if (item.type == ITEM_SHRINK)
-            mvwprintw(gamescr, item.position.y, item.position.x * 2, "-");
+        {
+            wattron(gamescr, COLOR_PAIR(COLOR_ITEM_NEGATIVE));
+            mvwprintw(gamescr, item.position.y, item.position.x * 2, "L-");
+            wattroff(gamescr, COLOR_PAIR(COLOR_ITEM_NEGATIVE));
+        }
         else if (item.type == ITEM_SPEED_UP)
-            mvwprintw(gamescr, item.position.y, item.position.x * 2, "U"); // Speed Up 아이템 표시
+        {
+            wattron(gamescr, COLOR_PAIR(COLOR_ITEM_POSITIVE));
+            mvwprintw(gamescr, item.position.y, item.position.x * 2, "S+"); // Speed Up 아이템 표시
+            wattroff(gamescr, COLOR_PAIR(COLOR_ITEM_POSITIVE));
+        }
         else if (item.type == ITEM_SPEED_DOWN)
-            mvwprintw(gamescr, item.position.y, item.position.x * 2, "D"); // Speed Down 아이템 표시
+        {
+            wattron(gamescr, COLOR_PAIR(COLOR_ITEM_NEGATIVE));
+            mvwprintw(gamescr, item.position.y, item.position.x * 2, "S-"); // Speed Down 아이템 표시
+            wattroff(gamescr, COLOR_PAIR(COLOR_ITEM_NEGATIVE));
+        }
     }
+
     Updating_Box();
+
     wrefresh(gamescr);
 }
 
@@ -100,10 +120,14 @@ void GameScene::InitScreen()
 {
     start_color();
 
-    init_pair(COLOR_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
-    init_pair(COLOR_GAME_BACKGROUND, COLOR_BLACK, COLOR_WHITE);
-    init_pair(COLOR_SNAKE, COLOR_GREEN, COLOR_YELLOW);
-    init_pair(COLOR_WALL, COLOR_RED, COLOR_BLACK);
+    init_pair(COLOR_BACKGROUND, COLOR_WHITE, COLOR_BLACK);
+    init_pair(COLOR_GAME_BACKGROUND, COLOR_WHITE, COLOR_BLACK);
+    init_pair(COLOR_SNAKE_HEAD, COLOR_GREEN, COLOR_GREEN);
+    init_pair(COLOR_SNAKE_TAIL, COLOR_YELLOW, COLOR_YELLOW);
+    init_pair(COLOR_WALL, COLOR_RED, COLOR_RED);
+    init_pair(COLOR_ITEM_POSITIVE, COLOR_BLACK, COLOR_CYAN);
+    init_pair(COLOR_ITEM_NEGATIVE, COLOR_BLACK, COLOR_MAGENTA);
+    init_pair(COLOR_GATE, COLOR_WHITE, COLOR_BLUE);
 }
 
 void GameScene::InitMap()

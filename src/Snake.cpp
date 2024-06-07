@@ -1,6 +1,8 @@
 #include "Snake.h"
 #include "InputManager.h"
 
+#include <cmath>
+
 Snake::Snake(int x, int y, int length)
 {
     position = Vector2(x, y);
@@ -53,13 +55,15 @@ void Snake::Update()
 
 void Snake::Draw(WINDOW *curscr)
 {
-    attron(COLOR_PAIR(COLOR_SNAKE));
-    mvwprintw(curscr, position.y, position.x * 2, "O");
+    wattron(curscr, COLOR_PAIR(COLOR_SNAKE_HEAD));
+    mvwprintw(curscr, position.y, position.x * 2, "  ");
+    wattroff(curscr, COLOR_PAIR(COLOR_SNAKE_HEAD));
+    wattron(curscr, COLOR_PAIR(COLOR_SNAKE_TAIL));
     for (int i = 0; i < tails.size(); i++)
     {
-        mvwprintw(curscr, tails[i].y, tails[i].x * 2, "X");
+        mvwprintw(curscr, tails[i].y, tails[i].x * 2, "  ");
     }
-    attroff(COLOR_PAIR(COLOR_SNAKE));
+    wattroff(curscr, COLOR_PAIR(COLOR_SNAKE_TAIL));
 }
 
 void Snake::PushTail()
@@ -122,9 +126,9 @@ void Snake::IncreaseSpeed()
 {
     // 현재 속도의 크기를 1 증가시킴
     speed += 1;
-    if (speed > 5)
+    if (speed > 10)
     {
-        speed = 5;
+        speed = 10;
     }
 }
 
@@ -140,5 +144,5 @@ void Snake::DecreaseSpeed()
 
 int Snake::GetDelayFromSpeed()
 {
-    return DEFAULT_DELAY - (speed - 1) * 100;
+    return int(DEFAULT_DELAY * pow(0.8, (speed - 1)));
 }

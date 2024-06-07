@@ -31,10 +31,12 @@ void Gate::Update()
 
 void Gate::Draw(WINDOW *curscr)
 {
+    wattron(curscr, COLOR_PAIR(COLOR_GATE));
     for (int i = 0; i < 2; i++)
     {
         mvwprintw(curscr, gatePos[i].y, gatePos[i].x * 2, "[]");
     }
+    wattroff(curscr, COLOR_PAIR(COLOR_GATE));
 }
 
 Vector2 Gate::GetExitPosition(Vector2 enterPosition)
