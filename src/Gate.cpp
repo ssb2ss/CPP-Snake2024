@@ -41,6 +41,7 @@ void Gate::Draw(WINDOW *curscr)
 
 Vector2 Gate::GetExitPosition(Vector2 enterPosition)
 {
+    enterTimer = 0;
     if (gatePos[0] == enterPosition)
     {
         return gatePos[1];
@@ -49,7 +50,6 @@ Vector2 Gate::GetExitPosition(Vector2 enterPosition)
     {
         return gatePos[0];
     }
-    enterTimer = 0;
 }
 
 Vector2 Gate::GetExitDirection(Vector2 enterPosition, Vector2 enterDirection)

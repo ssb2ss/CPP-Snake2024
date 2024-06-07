@@ -429,7 +429,7 @@ void GameScene::UpdateGate()
     if (gate != nullptr)
     {
         gate->Update();
-        if (gateTimer > 20 && gate->IsRemovable(snake->GetTailSize()))
+        if (gateTimer > 30 && gate->IsRemovable(snake->GetTailSize()))
         {
             delete gate;
             gate = nullptr;
@@ -438,7 +438,7 @@ void GameScene::UpdateGate()
     }
     else
     {
-        if (gateTimer > 10)
+        if (gateTimer > 15)
         {
             gate = new Gate(map, width, height);
             gateTimer = 0;
