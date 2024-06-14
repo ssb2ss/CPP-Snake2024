@@ -70,7 +70,7 @@ public:
                 Mission_score[i] = t_random;
                 continue;
             }
-            int random = 1 + rand() % 9; // from 1 to 10 make random number
+            int random = 1 + rand() % 9; // from 1 to 9 make random number
             //int random = 1;
             Mission_score[i] = random;
         }

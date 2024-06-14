@@ -10,6 +10,7 @@
 GameScene::GameScene(int currentStage)
     : currentStage(currentStage)
 {
+    srand(time(0));
     isGameOver = false;
 
     InitMap();
@@ -22,7 +23,6 @@ GameScene::GameScene(int currentStage)
     gateTimer = 0;
     t_box = new Box();
     t_box->Make_Random_Score();
-    srand(time(0));
     lastItemTime = std::chrono::steady_clock::now(); // 마지막 아이템 생성 시간 초기화
     starttime = std::chrono::steady_clock::now();
     std::srand(static_cast<unsigned int>(std::time(0)));
