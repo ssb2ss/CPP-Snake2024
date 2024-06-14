@@ -7,7 +7,8 @@
 #include "Box.h"
 #include "Gate.h"
 
-GameScene::GameScene()
+GameScene::GameScene(int currentStage)
+    : currentStage(currentStage)
 {
     isGameOver = false;
 
@@ -157,7 +158,9 @@ void GameScene::InitMap()
         //     }
         // }
     }
-    LoadMap("src/map.txt");
+    char filename[] = "src/maps/map0.txt";
+    filename[12] += currentStage;
+    LoadMap(filename);
 }
 
 void GameScene::CheckCollide() // when snake hit wall or collideself is game over
@@ -318,7 +321,7 @@ void GameScene::Updating_Box()
     box(MissionBOX, 0, 0);
 
     mvwprintw(ScoreBox, 1, 14, "SCORE BOX");
-    mvwprintw(ScoreBox, 2, 12, "<  STAGE  %d  >", current_stage + 1);
+    mvwprintw(ScoreBox, 2, 12, "<  STAGE  %d  >", currentStage);
     mvwprintw(MissionBOX, 1, 14, "MISSION BOX");
     Updating_Score();
     Checking_Mission();
@@ -362,7 +365,7 @@ void GameScene::Checking_Mission()
     std::vector<int> mission_scr = t_box->get_Mission_score();
     for (int i = 0; i < 6; i++)
     {
-        if (score_cnt[i] == mission_scr[i])
+        if (score_cnt[i] >= mission_scr[i])
         {
             t_box->SetCheck(i);
         }

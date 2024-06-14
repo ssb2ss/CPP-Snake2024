@@ -1,7 +1,7 @@
 #ifndef _UTILITIES_H_
 #define _UTILITIES_H_
 
-#define DEFAULT_DELAY 500
+#define DEFAULT_DELAY 200
 
 enum Color
 {

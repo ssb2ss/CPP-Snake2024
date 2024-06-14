@@ -30,10 +30,10 @@ class GameScene
 
     bool passingGate;
     int getItem;
-    int current_stage;
+    int currentStage;
 
 public:
-    GameScene();
+    GameScene(int currentStage);
     ~GameScene();
     void Update();
     void Draw();

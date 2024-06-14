@@ -6,6 +6,7 @@
 
 void Update(GameScene *game)
 {
+    int stage = 1;
     while (true)
     {
         clear();
@@ -17,7 +18,7 @@ void Update(GameScene *game)
             WINDOW *end;
             end = newwin(5, 21, 10, 15);
             box(end, 0, 0);
-            mvwprintw(end, 2, 6, "Game Over");
+            mvwprintw(end, 2, 6, "GAME OVER");
             wrefresh(end);
             getch();
             break;
@@ -27,10 +28,24 @@ void Update(GameScene *game)
             WINDOW *stagepass;
             stagepass = newwin(5, 21, 10, 15);
             box(stagepass, 0, 0);
-            mvwprintw(stagepass, 2, 6, "STAGE PASS");
+            if (stage < 4)
+            {
+                mvwprintw(stagepass, 2, 6, "STAGE PASS");
+            }
+            else
+            {
+                mvwprintw(stagepass, 2, 6, "GAME CLEAR");
+            }
             wrefresh(stagepass);
             getch();
-            break;
+            delete game;
+            stage++;
+            if (stage > 4)
+            {
+                break;
+            }
+            game = new GameScene(stage);
+            continue;
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(game->GetDelay()));
@@ -54,7 +69,7 @@ int main()
     curs_set(0);
     keypad(stdscr, TRUE);
 
-    GameScene *game = new GameScene();
+    GameScene *game = new GameScene(1);
 
     // Multi-threading - Game Update / Input Key
     std::thread update(Update, game);
